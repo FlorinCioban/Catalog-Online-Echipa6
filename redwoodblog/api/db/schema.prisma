@@ -1,0 +1,47 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = "native"
+}
+
+model Course {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  Grade Grade[]
+}
+
+model Student {
+  id        Int     @id @default(autoincrement())
+  firstName String  @unique
+  lastName  String  @unique
+  Grade     Grade[]
+  user      User?   @relation(fields: [userId], references: [id])
+  userId    Int?
+}
+
+model Grade {
+  id              Int      @id @default(autoincrement())
+  grade           Int
+  semester        Int
+  year            String
+  examinationDate DateTime
+  student         Student  @relation(fields: [studentId], references: [id])
+  studentId       Int
+  course          Course   @relation(fields: [courseId], references: [id])
+  courseId        Int
+}
+
+model User {
+  id                  Int       @id @default(autoincrement())
+  name                String?
+  email               String    @unique
+  hashedPassword      String
+  salt                String
+  resetToken          String?
+  resetTokenExpiresAt DateTime?
+  Student             Student[]
+}
