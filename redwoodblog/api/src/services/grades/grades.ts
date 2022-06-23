@@ -10,12 +10,18 @@ export const grades: QueryResolvers['grades'] = () => {
   return db.grade.findMany()
 }
 
-export const studentGrades: QueryResolvers['studentGrades'] = ({
-  studentId,
-}) => {
-  return db.grade.findMany({
-    where: { studentId },
+export const studentGrades: QueryResolvers['studentGrades'] = async () => {
+  const currentStudent = await db.student.findUnique({
+    where: { id: context.currentUser.id },
   })
+
+  if (!currentStudent) {
+    return []
+  } else {
+    return db.grade.findMany({
+      where: { studentId: currentStudent.id },
+    })
+  }
 }
 
 export const grade: QueryResolvers['grade'] = ({ id }) => {

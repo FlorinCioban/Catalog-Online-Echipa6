@@ -1,5 +1,3 @@
-import { StudentGradesQuery } from 'types/graphql'
-
 const MAX_STRING_LENGTH = 150
 
 const truncate = (text) => {
@@ -21,7 +19,7 @@ const timeTag = (datetime) => {
 }
 
 type Props = {
-  grades: StudentGradesQuery['studentGrades']
+  grades: any
 }
 
 const StudentGradesList = ({ grades }: Props) => {
@@ -36,6 +34,7 @@ const StudentGradesList = ({ grades }: Props) => {
             <th>Grade</th>
             <th>Course</th>
             <th>Examination date</th>
+            <th>Student ID</th>
           </tr>
         </thead>
         <tbody>
@@ -47,6 +46,7 @@ const StudentGradesList = ({ grades }: Props) => {
               <td>{truncate(grade.grade)}</td>
               <td>{truncate(grade.course.name)}</td>
               <td>{timeTag(grade.examinationDate)}</td>
+              <td>{grade.studentId}</td>
             </tr>
           ))}
         </tbody>

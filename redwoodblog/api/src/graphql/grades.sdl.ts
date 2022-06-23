@@ -14,12 +14,7 @@ export const schema = gql`
   type Query {
     grades: [Grade!]! @requireAuth
     grade(id: Int!): Grade @requireAuth
-    studentGrades(studentId: Int!): [Grade!]! @skipAuth
-  }
-
-  type Query {
-    grades: [Grade!]! @requireAuth
-    grade(id: Int!): Grade @requireAuth
+    studentGrades: [Grade!]! @requireAuth
   }
 
   input CreateGradeInput {

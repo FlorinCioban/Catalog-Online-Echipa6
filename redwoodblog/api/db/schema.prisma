@@ -44,4 +44,5 @@ model User {
   resetToken          String?
   resetTokenExpiresAt DateTime?
   Student             Student[]
+
 }

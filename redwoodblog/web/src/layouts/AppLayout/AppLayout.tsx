@@ -7,13 +7,14 @@ type AppLayoutProps = {
 
 const AppLayout = ({ children }: AppLayoutProps) => {
   const { isAuthenticated, currentUser, logOut } = useAuth()
+
   return (
     <>
       <header className="app-layout-header">
         <div className="flex-between">
           {isAuthenticated ? (
             <div>
-              <span>Logged in as {currentUser.email}</span>{' '}
+              <span>Logged in as {currentUser.email}</span>
               <button type="button" onClick={logOut}>
                 Logout
               </button>
@@ -23,7 +24,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
           )}
         </div>
       </header>
-      <main>[children]</main>
+      <main>{children}</main>
     </>
   )
 }

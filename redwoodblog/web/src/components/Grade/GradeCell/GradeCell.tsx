@@ -5,15 +5,18 @@ import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 import Grade from 'src/components/Grade/Grade'
 
 export const QUERY = gql`
-  query FindGradeById($id: Int!) {
-    grade: grade(id: $id) {
-      id
-      grade
-      semester
-      year
-      examinationDate
-      studentId
-      courseId
+  query FindGrade {
+    id
+    grade
+    semester
+    year
+    examinationDate
+    student {
+      firstName
+      lastName
+    }
+    course {
+      name
     }
   }
 `
