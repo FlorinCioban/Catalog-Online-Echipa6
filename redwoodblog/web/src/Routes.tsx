@@ -16,22 +16,28 @@ import AppLayout from './layouts/AppLayout/AppLayout'
 const Routes = () => {
   return (
     <Router>
-      <Route path="/login" page={LoginPage} name="login" />
-      <Route path="/signup" page={SignupPage} name="signup" />
-      <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
-      <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
-      {/* <Private unauthenticated="studentHome"> */}
+      <Route path="/" page={LoginPage} name="login" />
+
       <Set wrap={AppLayout}>
-        <Set wrap={GradesLayout}>
-          <Route path="/teacher/grades/new" page={GradeNewGradePage} name="newGrade" />
-          <Route path="/teacher/grades/{id:Int}/edit" page={GradeEditGradePage} name="editGrade" />
-          <Route path="/teacher/grades/{id:Int}" page={GradeGradePage} name="grade" />
-          <Route path="/teacher/grades" page={GradeGradesPage} name="grades" />
-        </Set>
+      <Private unauthenticated="login" roles={["superadmin","admin"]}>
+          <Route path="/signup" page={SignupPage} name="signup" />
+        </Private>
+
+        <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
+        <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
+        <Private unauthenticated="login" roles={["superadmin",'teacher', 'admin']}>
+          <Set wrap={GradesLayout}>
+            <Route path="/teacher/grades/new" page={GradeNewGradePage} name="newGrade" />
+            <Route path="/teacher/grades/{id:Int}/edit" page={GradeEditGradePage} name="editGrade" />
+            <Route path="/teacher/grades/{id:Int}" page={GradeGradePage} name="grade" />
+            <Route path="/teacher/grades" page={GradeGradesPage} name="grades" />
+          </Set>
+        </Private>
+        <Private unauthenticated="login" roles={["superadmin","student"]}>
+          <Route path="/student-home" page={StudentHomePage} name="studentHome" />
+        </Private>
+        <Route notfound page={NotFoundPage} />
       </Set>
-      {/* </Private> */}
-      <Route path="/" page={StudentHomePage} name="studentHome" />
-      <Route notfound page={NotFoundPage} />
     </Router>
   )
 }

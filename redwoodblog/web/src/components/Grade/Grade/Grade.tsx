@@ -66,31 +66,49 @@ const Grade = ({ grade }) => {
     <>
       <div className="rw-segment">
         <header className="rw-segment-header">
-          <h2 className="rw-heading rw-heading-secondary">Grade {grade.id} Detail</h2>
+          <h2 className="rw-heading rw-heading-secondary">
+            Grade {grade.id} Detail
+          </h2>
         </header>
         <table className="rw-table">
           <tbody>
             <tr>
               <th>Id</th>
               <td>{grade.id}</td>
-            </tr><tr>
+            </tr>
+            <tr>
               <th>Grade</th>
               <td>{grade.grade}</td>
-            </tr><tr>
+            </tr>
+            <tr>
               <th>Semester</th>
               <td>{grade.semester}</td>
-            </tr><tr>
+            </tr>
+            <tr>
               <th>Year</th>
               <td>{grade.year}</td>
-            </tr><tr>
+            </tr>
+            <tr>
               <th>Examination date</th>
               <td>{timeTag(grade.examinationDate)}</td>
-            </tr><tr>
+            </tr>
+            <tr>
               <th>Student id</th>
-              <td>{grade.studentId}</td>
-            </tr><tr>
+              <td>{grade.student.id}</td>
+            </tr>
+            <tr>
+              <th>Student name</th>
+              <td>
+                {grade.student.firstName} {grade.student.lastName}
+              </td>
+            </tr>
+            <tr>
               <th>Course id</th>
-              <td>{grade.courseId}</td>
+              <td>{grade.course.id}</td>
+            </tr>
+            <tr>
+              <th>Course name</th>
+              <td>{grade.course.name}</td>
             </tr>
           </tbody>
         </table>

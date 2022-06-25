@@ -13,8 +13,13 @@ export const QUERY = gql`
       semester
       year
       examinationDate
-      studentId
-      courseId
+      student {
+        firstName
+        lastName
+      }
+      course {
+        name
+      }
     }
   }
 `
@@ -25,10 +30,7 @@ export const Empty = () => {
   return (
     <div className="rw-text-center">
       {'No grades yet. '}
-      <Link
-        to={routes.newGrade()}
-        className="rw-link"
-      >
+      <Link to={routes.newGrade()} className="rw-link">
         {'Create one?'}
       </Link>
     </div>

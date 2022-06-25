@@ -23,19 +23,19 @@ describe('grades', () => {
   scenario('creates a grade', async (scenario: StandardScenario) => {
     const result = await createGrade({
       input: {
-        grade: 5063612,
-        semester: 3730234,
+        grade: 7707914,
+        semester: 9974733,
         year: 'String',
-        examinationDate: '2022-06-19T17:55:31Z',
+        examinationDate: '2022-06-19T17:53:48Z',
         studentId: scenario.grade.two.studentId,
         courseId: scenario.grade.two.courseId,
       },
     })
 
-    expect(result.grade).toEqual(5063612)
-    expect(result.semester).toEqual(3730234)
+    expect(result.grade).toEqual(7707914)
+    expect(result.semester).toEqual(9974733)
     expect(result.year).toEqual('String')
-    expect(result.examinationDate).toEqual('2022-06-19T17:55:31Z')
+    expect(result.examinationDate).toEqual('2022-06-19T17:53:48Z')
     expect(result.studentId).toEqual(scenario.grade.two.studentId)
     expect(result.courseId).toEqual(scenario.grade.two.courseId)
   })
@@ -44,10 +44,10 @@ describe('grades', () => {
     const original = await grade({ id: scenario.grade.one.id })
     const result = await updateGrade({
       id: original.id,
-      input: { grade: 5083491 },
+      input: { grade: 6522223 },
     })
 
-    expect(result.grade).toEqual(5083491)
+    expect(result.grade).toEqual(6522223)
   })
 
   scenario('deletes a grade', async (scenario: StandardScenario) => {

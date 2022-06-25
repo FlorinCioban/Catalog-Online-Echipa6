@@ -4,26 +4,22 @@ export const standard = defineScenario<Prisma.GradeCreateArgs>({
   grade: {
     one: {
       data: {
-        grade: 4537490,
-        semester: 9142584,
+        grade: 5037161,
+        semester: 2180874,
         year: 'String',
-        examinationDate: '2022-06-19T17:55:31Z',
-        student: {
-          create: { firstName: 'String5281870', lastName: 'String9209423' },
-        },
-        course: { create: { name: 'String3379952' } },
+        examinationDate: '2022-06-19T17:53:48Z',
+        student: { create: { firstName: 'String', lastName: 'String' } },
+        course: { create: { name: 'String3771822' } },
       },
     },
     two: {
       data: {
-        grade: 1359846,
-        semester: 4774332,
+        grade: 4630206,
+        semester: 3096585,
         year: 'String',
-        examinationDate: '2022-06-19T17:55:31Z',
-        student: {
-          create: { firstName: 'String5626494', lastName: 'String2665879' },
-        },
-        course: { create: { name: 'String2952747' } },
+        examinationDate: '2022-06-19T17:53:48Z',
+        student: { create: { firstName: 'String', lastName: 'String' } },
+        course: { create: { name: 'String1055477' } },
       },
     },
   },

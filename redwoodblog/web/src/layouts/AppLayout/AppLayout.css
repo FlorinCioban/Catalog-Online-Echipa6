@@ -1,5 +1,4 @@
-.app-layout-header{
-    display: flex;
-    align-items: center;
-    justify-content: left;
+.catalog__app-layout-header {
+  display: flex;
+  justify-content: flex-end;
 }

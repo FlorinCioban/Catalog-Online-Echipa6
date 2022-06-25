@@ -1,5 +1,7 @@
+// import { Link } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { Link, routes } from '@redwoodjs/router'
+import './AppLayout.css'
 
 type AppLayoutProps = {
   children?: React.ReactNode
@@ -10,11 +12,13 @@ const AppLayout = ({ children }: AppLayoutProps) => {
 
   return (
     <>
-      <header className="app-layout-header">
+      <header className="catalog__app-layout-header">
         <div className="flex-between">
           {isAuthenticated ? (
             <div>
-              <span>Logged in as {currentUser.email}</span>
+              <span>
+                Logged in as {currentUser.email} ({currentUser.roles}){' '}
+              </span>
               <button type="button" onClick={logOut}>
                 Logout
               </button>

@@ -1,5 +1,7 @@
-import { Link, navigate, routes } from '@redwoodjs/router'
 import { useRef } from 'react'
+import { useEffect } from 'react'
+
+import { useAuth } from '@redwoodjs/auth'
 import {
   Form,
   Label,
@@ -7,20 +9,22 @@ import {
   PasswordField,
   FieldError,
   Submit,
+  SelectField,
 } from '@redwoodjs/forms'
-import { useAuth } from '@redwoodjs/auth'
+import { Link, navigate, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 import { toast, Toaster } from '@redwoodjs/web/toast'
-import { useEffect } from 'react'
+
+import { getHomePageForRole } from '../auth-utils'
 
 const SignupPage = () => {
-  const { isAuthenticated, signUp } = useAuth()
+  const { isAuthenticated, signUp, currentUser, hasRole } = useAuth()
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate(routes.studentHome())
+    if (isAuthenticated && !hasRole('admin')) {
+      navigate(getHomePageForRole(currentUser?.roles))
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, currentUser?.roles, hasRole])
 
   // focus on email box on page load
   const usernameRef = useRef<HTMLInputElement>()
@@ -56,6 +60,21 @@ const SignupPage = () => {
             <div className="rw-segment-main">
               <div className="rw-form-wrapper">
                 <Form onSubmit={onSubmit} className="rw-form-wrapper">
+                  <Label
+                    name="name"
+                    className="rw-label"
+                    errorClassName="rw-label rw-label-error"
+                  >
+                    Name
+                  </Label>
+                  <TextField
+                    name="name"
+                    className="rw-input"
+                    errorClassName="rw-input rw-input-error"
+                    ref={usernameRef}
+                  />
+                  <FieldError name="name" className="rw-field-error" />
+
                   <Label
                     name="username"
                     className="rw-label"
@@ -97,6 +116,26 @@ const SignupPage = () => {
                     }}
                   />
                   <FieldError name="password" className="rw-field-error" />
+                  <Label
+                    name="roles"
+                    className="rw-label"
+                    errorClassName="rw-label rw-label-error"
+                  >
+                    Roles
+                  </Label>
+                  <SelectField
+                    name="roles"
+                    id="role-select"
+                    className="rw-select"
+                    errorClassName="rw-select rw-input-error"
+                    validation={{ required: true }}
+                  >
+                    <option value="">--Please choose a role--</option>
+                    <option value="superadmin">Super Admin</option>
+                    <option value="admin">Admin</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="student">Student</option>
+                  </SelectField>
 
                   <div className="rw-button-group">
                     <Submit className="rw-button rw-button-blue">
@@ -106,12 +145,6 @@ const SignupPage = () => {
                 </Form>
               </div>
             </div>
-          </div>
-          <div className="rw-login-link">
-            <span>Already have an account?</span>{' '}
-            <Link to={routes.login()} className="rw-link">
-              Log in!
-            </Link>
           </div>
         </div>
       </main>

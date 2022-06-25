@@ -1,3 +1,5 @@
+import type { StudentGradesQuery } from 'types/graphql'
+
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
 
 import StudentGradesList from '../StudentGradesList/StudentGradesList'
@@ -26,6 +28,8 @@ export const Failure = ({ error }: CellFailureProps) => (
   <div style={{ color: 'red' }}>Error: {error.message}</div>
 )
 
-export const Success = ({ studentGrades }: CellSuccessProps<any>) => {
+export const Success = ({
+  studentGrades,
+}: CellSuccessProps<StudentGradesQuery>) => {
   return <StudentGradesList grades={studentGrades} />
 }

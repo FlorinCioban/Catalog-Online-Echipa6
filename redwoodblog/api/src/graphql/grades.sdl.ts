@@ -12,9 +12,9 @@ export const schema = gql`
   }
 
   type Query {
-    grades: [Grade!]! @requireAuth
-    grade(id: Int!): Grade @requireAuth
-    studentGrades: [Grade!]! @requireAuth
+    grades: [Grade!]! @requireAuth(roles: ["superadmin","teacher"])
+    grade(id: Int!): Grade @requireAuth(roles: ["superadmin","teacher"])
+    studentGrades: [Grade!]! @requireAuth(roles: ["superadmin","student"])
   }
 
   input CreateGradeInput {
@@ -36,8 +36,9 @@ export const schema = gql`
   }
 
   type Mutation {
-    createGrade(input: CreateGradeInput!): Grade! @requireAuth
-    updateGrade(id: Int!, input: UpdateGradeInput!): Grade! @requireAuth
-    deleteGrade(id: Int!): Grade! @requireAuth
+    createGrade(input: CreateGradeInput!): Grade! @requireAuth(roles: ["superadmin","teacher"])
+    updateGrade(id: Int!, input: UpdateGradeInput!): Grade!
+      @requireAuth(roles: ["superadmin","teacher"])
+    deleteGrade(id: Int!): Grade! @requireAuth(roles: ["superadmin","teacher"])
   }
 `

@@ -1,11 +1,11 @@
-import type { EditGradeById } from 'types/graphql'
+import type { EditGradeById, GetStudents } from 'types/graphql'
 
 import { navigate, routes } from '@redwoodjs/router'
-import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
+import { CellSuccessProps, CellFailureProps, useQuery } from '@redwoodjs/web'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
-import GradeForm from 'src/components/Grade/GradeForm'
+import GradeForm, { formatStudentName } from 'src/components/Grade/GradeForm'
 
 export const QUERY = gql`
   query EditGradeById($id: Int!) {
@@ -15,7 +15,11 @@ export const QUERY = gql`
       semester
       year
       examinationDate
-      studentId
+      student {
+        id
+        firstName
+        lastName
+      }
       courseId
     }
   }
@@ -30,6 +34,16 @@ const UPDATE_GRADE_MUTATION = gql`
       examinationDate
       studentId
       courseId
+    }
+  }
+`
+
+export const GET_STUDENTS = gql`
+  query GetStudents {
+    students {
+      id
+      firstName
+      lastName
     }
   }
 `
@@ -51,18 +65,40 @@ export const Success = ({ grade }: CellSuccessProps<EditGradeById>) => {
     },
   })
 
+  const {
+    loading: loadingStudents,
+    error: fetchStudentsError,
+    data: studentsData,
+  } = useQuery<GetStudents>(GET_STUDENTS)
+
   const onSave = (input, id) => {
-    const castInput = Object.assign(input, { studentId: parseInt(input.studentId), courseId: parseInt(input.courseId), })
+    const selectedStudent = studentsData.students.find(
+      (student) => formatStudentName(student) === input.student
+    )
+    const castInput = {
+      ...input,
+      studentId: selectedStudent.id,
+      courseId: parseInt(input.courseId),
+      student: undefined,
+    }
     updateGrade({ variables: { id, input: castInput } })
   }
 
   return (
     <div className="rw-segment">
       <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading-secondary">Edit Grade {grade.id}</h2>
+        <h2 className="rw-heading rw-heading-secondary">
+          Edit Grade {grade.id}
+        </h2>
       </header>
       <div className="rw-segment-main">
-        <GradeForm grade={grade} onSave={onSave} error={error} loading={loading} />
+        <GradeForm
+          grade={grade}
+          students={studentsData?.students || []}
+          onSave={onSave}
+          error={error || fetchStudentsError}
+          loading={loading || loadingStudents}
+        />
       </div>
     </div>
   )

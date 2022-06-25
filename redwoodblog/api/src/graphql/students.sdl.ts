@@ -7,7 +7,7 @@ export const schema = gql`
   }
 
   type Query {
-    students: [Student!]! @requireAuth
+    students: [Student!]! @requireAuth(roles: ["superadmin", "admin", "teacher"])
   }
 
   input CreateStudentInput {

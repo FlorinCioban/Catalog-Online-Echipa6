@@ -1,3 +1,5 @@
+import { StudentGradesQuery } from 'types/graphql'
+
 const MAX_STRING_LENGTH = 150
 
 const truncate = (text) => {
@@ -19,7 +21,7 @@ const timeTag = (datetime) => {
 }
 
 type Props = {
-  grades: any
+  grades: StudentGradesQuery['studentGrades']
 }
 
 const StudentGradesList = ({ grades }: Props) => {
@@ -28,25 +30,23 @@ const StudentGradesList = ({ grades }: Props) => {
       <table className="rw-table">
         <thead>
           <tr>
-            {/* <th>Id</th> */}
             <th>Year</th>
             <th>Semester</th>
-            <th>Grade</th>
             <th>Course</th>
+            <th>Grade</th>
             <th>Examination date</th>
-            <th>Student ID</th>
+            {/* <th>Student ID</th> */}
           </tr>
         </thead>
         <tbody>
           {grades.map((grade) => (
             <tr key={grade.id}>
-              {/* <td>{truncate(grade.id)}</td> */}
               <td>{truncate(grade.year)}</td>
               <td>{truncate(grade.semester)}</td>
-              <td>{truncate(grade.grade)}</td>
               <td>{truncate(grade.course.name)}</td>
+              <td>{truncate(grade.grade)}</td>
               <td>{timeTag(grade.examinationDate)}</td>
-              <td>{grade.studentId}</td>
+              {/* <td>{grade.studentId}</td> */}
             </tr>
           ))}
         </tbody>

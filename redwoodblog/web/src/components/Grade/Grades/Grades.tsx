@@ -1,11 +1,11 @@
 import humanize from 'humanize-string'
+import { FindGrades } from 'types/graphql'
 
 import { Link, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 
 import { QUERY } from 'src/components/Grade/GradesCell'
-import { FindGrades } from 'types/graphql'
 
 const DELETE_GRADE_MUTATION = gql`
   mutation DeleteGradeMutation($id: Int!) {
@@ -54,7 +54,11 @@ const checkboxInputTag = (checked) => {
   return <input type="checkbox" checked={checked} disabled />
 }
 
-const GradesList = ({ grades }: FindGrades) => {
+type Props = {
+  grades: FindGrades['grades']
+}
+
+const GradesList = ({ grades }: Props) => {
   const [deleteGrade] = useMutation(DELETE_GRADE_MUTATION, {
     onCompleted: () => {
       toast.success('Grade deleted')
@@ -98,8 +102,12 @@ const GradesList = ({ grades }: FindGrades) => {
               <td>{truncate(grade.semester)}</td>
               <td>{truncate(grade.year)}</td>
               <td>{timeTag(grade.examinationDate)}</td>
-              <td>{truncate(grade.studentId)}</td>
-              <td>{truncate(grade.courseId)}</td>
+              <td>
+                {truncate(
+                  `${grade.student.firstName} ${grade.student.lastName}`
+                )}
+              </td>
+              <td>{truncate(grade.course.name)}</td>
               <td>
                 <nav className="rw-table-actions">
                   <Link

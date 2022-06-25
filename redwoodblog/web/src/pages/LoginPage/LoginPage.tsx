@@ -1,5 +1,7 @@
-import { Link, navigate, routes } from '@redwoodjs/router'
 import { useRef } from 'react'
+import { useEffect } from 'react'
+
+import { useAuth } from '@redwoodjs/auth'
 import {
   Form,
   Label,
@@ -8,19 +10,20 @@ import {
   Submit,
   FieldError,
 } from '@redwoodjs/forms'
-import { useAuth } from '@redwoodjs/auth'
+import { Link, navigate, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 import { toast, Toaster } from '@redwoodjs/web/toast'
-import { useEffect } from 'react'
+
+import { getHomePageForRole } from '../auth-utils'
 
 const LoginPage = () => {
-  const { isAuthenticated, logIn } = useAuth()
+  const { isAuthenticated, logIn, currentUser, hasRole } = useAuth()
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(routes.studentHome())
+      navigate(getHomePageForRole(currentUser?.roles))
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, currentUser?.roles])
 
   const usernameRef = useRef<HTMLInputElement>()
   useEffect(() => {
@@ -34,6 +37,14 @@ const LoginPage = () => {
       toast(response.message)
     } else if (response.error) {
       toast.error(response.error)
+    } else if (response.errors) {
+      toast.error(
+        <ul>
+          {response.errors.map((error, index) => (
+            <li key={index}>{error.message}</li>
+          ))}
+        </ul>
+      )
     } else {
       toast.success('Welcome back!')
     }
@@ -115,10 +126,14 @@ const LoginPage = () => {
             </div>
           </div>
           <div className="rw-login-link">
-            <span>Don&apos;t have an account?</span>{' '}
-            <Link to={routes.signup()} className="rw-link">
-              Sign up!
-            </Link>
+            {
+              hasRole(['admin', 'superadmin']) && (
+                <Link to={routes.signup()} className="rw-link">
+                  Sign up!
+                </Link>
+              )
+            }
+
           </div>
         </div>
       </main>
