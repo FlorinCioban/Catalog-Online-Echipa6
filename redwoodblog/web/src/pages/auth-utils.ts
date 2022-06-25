@@ -5,9 +5,9 @@ export function getHomePageForRole(roles: string | string[]) {
 
   switch (role) {
     case 'superadmin':
-      return routes.signup()
+      return routes.users()
     case 'admin':
-      return routes.signup()
+      return routes.users()
     case 'teacher':
       return routes.grades()
     case 'student':

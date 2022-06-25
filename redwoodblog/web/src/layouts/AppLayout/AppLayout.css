@@ -1,4 +1,29 @@
 .catalog__app-layout-header {
   display: flex;
-  justify-content: flex-end;
+  width: 100%;
+  border-bottom: 1px solid lightgrey;
+}
+
+.catalog__app-layout-header .rw-button-group {
+  width: 100%;
+}
+
+.catalog__app-layout-header .rw-button-group a:link{
+
+  text-decoration: none;
+}
+
+.catalog__app-layout-header .user-info {
+  display: flex;
+  align-items: center;
+}
+
+.rw-button.rw-button-white {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+}
+
+.push {
+  margin-left: auto;
 }
